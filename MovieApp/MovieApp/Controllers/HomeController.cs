@@ -103,23 +103,26 @@ namespace MovieApp.Controllers
         // GET: Home/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var movieToDelete = (from m in _db.Movies1
+
+                               where m.Id == id
+
+                               select m).First();
+
+            return View(movieToDelete);
         }
 
         // POST: Home/Delete/5
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete( Movie movieToDelete )
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+            if (!ModelState.IsValid)
                 return View();
-            }
+
+            _db.Entry(movieToDelete).State = EntityState.Deleted;
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
