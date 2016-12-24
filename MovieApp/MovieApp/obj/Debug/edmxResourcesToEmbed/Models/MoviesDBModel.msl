@@ -1,13 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="MovieAppModelsStoreContainer" CdmEntityContainer="MoviesDBEntities1">
-    <EntitySetMapping Name="Movies1">
+  <EntityContainerMapping StorageEntityContainer="MovieAppModelsStoreContainer" CdmEntityContainer="MoviesDBEntities">
+    <EntitySetMapping Name="Movies">
       <EntityTypeMapping TypeName="MovieApp.Models.Movie">
-        <MappingFragment StoreEntitySet="Movies">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+        <MappingFragment StoreEntitySet="Movie">
+          <ScalarProperty Name="MovieID" ColumnName="MovieID" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Director" ColumnName="Director" />
           <ScalarProperty Name="DateReleased" ColumnName="DateReleased" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reviews">
+      <EntityTypeMapping TypeName="MovieApp.Models.Review">
+        <MappingFragment StoreEntitySet="Review">
+          <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="MovieID" ColumnName="MovieID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

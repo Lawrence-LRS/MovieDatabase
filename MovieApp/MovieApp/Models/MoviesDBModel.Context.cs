@@ -13,10 +13,10 @@ namespace MovieApp.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MoviesDBEntities1 : DbContext
+    public partial class MoviesDBEntities : DbContext
     {
-        public MoviesDBEntities1()
-            : base("name=MoviesDBEntities1")
+        public MoviesDBEntities()
+            : base("name=MoviesDBEntities")
         {
         }
     
@@ -25,6 +25,7 @@ namespace MovieApp.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Movie> Movies1 { get; set; }
+        public virtual DbSet<Movie> Movies { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
     }
 }

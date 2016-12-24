@@ -4,8 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b0e466911615485bb9aa1b34edcb878d" Name="Diagram1">
-        <EntityTypeShape EntityType="MovieApp.Models.Movie" Width="1.75" PointX="0.75" PointY="1" IsExpanded="true" />
+      <Diagram DiagramId="fe6161ee1eca46088b520e084b83dd4f" Name="Diagram1">
+        <EntityTypeShape EntityType="MovieApp.Models.Movie" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MovieApp.Models.Review" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="MovieApp.Models.FK_dbo_Review_dbo_Movie_MovieID" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

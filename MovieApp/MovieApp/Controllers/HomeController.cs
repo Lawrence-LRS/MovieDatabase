@@ -6,123 +6,97 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using MovieApp.Models;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Net;
 
 namespace MovieApp.Controllers
 {
     public class HomeController : Controller
     {
-        private MoviesDBEntities1 _db = new MoviesDBEntities1();
+        private MoviesDBEntities db = new MoviesDBEntities();
 
         // GET: Home
         public ActionResult Index()
-
         {
-
-            return View(_db.Movies1.ToList());
-
+            return View(db.Movies.ToList());
         }
 
         // GET: Home/Details/5
         public ActionResult Details(int id)
         {
-            //return View();
-
-            var movieToView = (from m in _db.Movies1
-
-                               where m.Id == id
-
+            var movieToView = (from m in db.Movies
+                               where m.MovieID == id
                                select m).First();
-
             return View(movieToView);
         }
 
         // GET: Home/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: Home/Create
-        [AcceptVerbs(HttpVerbs.Post)]
+        [HttpPost]
         public ActionResult Create([Bind(Exclude = "Id")] Movie movieToCreate)
-
-        {
-
-            if (!ModelState.IsValid)
-
-                return View();
-            _db.Movies1.Add(movieToCreate);
-            _db.SaveChanges();
-
-            return RedirectToAction("Index");
-
-        }
-
-        // GET: /Home/Edit/5
-
-        public ActionResult Edit(int id)
-
-        {
-            var movieToEdit = (from m in _db.Movies1
-                               where m.Id == id
-                               select m).First();
-            return View(movieToEdit);
-
-        }
-
-        //
-
-        // POST: /Home/Edit/5 
-
-        [AcceptVerbs(HttpVerbs.Post)]
-
-        public ActionResult Edit(Movie movieToEdit)
-
-        {
-            
+        { 
 
             if (ModelState.IsValid)
             {
-                _db.Entry(movieToEdit).State = EntityState.Modified;
-                _db.SaveChanges();
+                db.Movies.Add(movieToCreate);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
+            return View();
+        }
+
+        // GET: Home/Edit/5
+        public ActionResult Edit(int id)
+        {
+            var movieToEdit = (from m in db.Movies
+                               where m.MovieID == id
+                               select m).First();
             return View(movieToEdit);
-          
+        }
 
+        // POST: Home/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, Movie movieToEdit)
+        {
 
-            
-
-         
-            
-              
-           
+            if (ModelState.IsValid)
+            {
+                db.Entry(movieToEdit).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(movieToEdit);
         }
 
         // GET: Home/Delete/5
         public ActionResult Delete(int id)
         {
-            var movieToDelete = (from m in _db.Movies1
-
-                               where m.Id == id
-
-                               select m).First();
-
+            var movieToDelete = (from m in db.Movies
+                                 where m.MovieID == id
+                                 select m).First();
             return View(movieToDelete);
         }
 
         // POST: Home/Delete/5
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Delete( Movie movieToDelete )
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection fcNotUsed)
         {
+            Movie movieToDelete = db.Movies.Find(id);
+
             if (!ModelState.IsValid)
-                return View();
+                return View(movieToDelete);
 
-            _db.Entry(movieToDelete).State = EntityState.Deleted;
-            _db.SaveChanges();
-
+            db.Movies.Remove(movieToDelete);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
     }
-}
+}        
