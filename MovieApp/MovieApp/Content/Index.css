@@ -1,0 +1,18 @@
+﻿body {
+}
+
+#Title{
+    text-align:center;
+}
+
+.nav{
+    text-align:right;
+}
+
+.reviews{
+    padding:30px 0px 15px 25px;
+}
+
+.movieRow{
+    padding-bottom:10px;
+}

@@ -1,44 +1,115 @@
 ﻿@model IEnumerable<MovieApp.Models.Movie>
+<link href="~/Content/Index.css" rel="stylesheet" />
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>MovieDatabase</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div id="Title">
+    <h1>MovieDatabase</h1>
+</div>
 
 
-@Html.DisplayNameFor(model => model.Title)
-@Html.DisplayNameFor(model => model.Director)
-@Html.DisplayNameFor(model => model.DateReleased)
 
 @{int i = 1;}
 @foreach (var item in Model)
 {
-    @Html.DisplayFor(modelItem => item.Title)
-    @Html.DisplayFor(modelItem => item.Director)
-    @Html.DisplayFor(modelItem => item.DateReleased)
+    <div class="movieRow">
+        
+        <h4>
+            @Html.DisplayNameFor(model => model.Title):
+            @Html.DisplayFor(modelItem => item.Title)
+        </h4> 
+
+        <h4>
+            @Html.DisplayNameFor(model => model.Director):
+            @Html.DisplayFor(modelItem => item.Director)
+        </h4>
+
+        <h4>
+            @Html.DisplayNameFor(model => model.DateReleased):
+            @Html.DisplayFor(modelItem => item.DateReleased)
+        </h4>
+
+        <div class="nav">
+            <p>
+                <input type="button" id="@(i)" class="showHideBtn btn btn-default" value="Show Reviews" />
+                @Html.ActionLink("Edit", "Edit", new { id = item.MovieID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.MovieID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MovieID })
+            </p>
+        </div>
+    </div>
 
 
-    @Html.ActionLink("Edit", "Edit", new { id = item.MovieID }) |
-    @Html.ActionLink("Details", "Details", new { id = item.MovieID }) |
-    @Html.ActionLink("Delete", "Delete", new { id = item.MovieID })
 
-        <div id="@("rev"+i)">
-            
-            Comment
-            Rating
+    <div class="reviews" id="@("rev"+i)">
 
-                @foreach (var review in item.Reviews)
-                {
-                    @Html.DisplayFor(modelItem => review.Comment)
-                    @Html.DisplayFor(modelItem => review.Rating)
-                       
-                }
-          </div>
+        <table class="table">
+        <tr>
+            <th colspan="4">
+                <h4>Comments</h4>
+            </th>
+            <th>
+                <h4>Rating</h4>
+            </th>
+            <th>
+                <h4>Date Rated</h4>
+            </th>
+        </tr>
+
+        @foreach (var review in item.Reviews)
+        {
+
+
+            <tr>
+                <td colspan="4">
+                    <h5>
+                        @Html.DisplayFor(modelItem => review.Comment)
+                    </h5>
+                </td>
+
+                <td>
+                    <h5>
+                        @Html.DisplayFor(modelItem => review.Rating)
+                    </h5>
+                </td>
+
+                <td>
+                    <h5>
+
+                    </h5>
+                </td>
+            </tr>
+        }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr></tr>
+        </table>
+    
+    </div>
     i++;
 }
+
+<p style="text-align:right">
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(main());
+
+    function main() {
+        $('.reviews').hide();
+
+        $('.showHideBtn').click(function () {
+            $("#rev" + (this.id)).toggle();
+        });
+
+    };
+</script>
