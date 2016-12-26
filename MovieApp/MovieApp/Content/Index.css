@@ -1,18 +1,37 @@
 ﻿body {
 }
 
-#Title{
+.wrapper {
+    min-width:100%;
+    min-height:100%;
+}
+#Title {
     text-align:center;
 }
 
-.nav{
+.movieNav {
     text-align:right;
 }
 
-.reviews{
+.bottomNav {
+    text-align:right;
+}
+.reviewbtn {
+   position: relative;
+   bottom: 0px;
+   right:0px;
+   padding: 0 30px 15px 0px;
+}
+
+.reviews {
     padding:30px 0px 15px 25px;
 }
 
-.movieRow{
-    padding-bottom:10px;
+.movieRow {
+    padding:0 30px 10px 0px;
+
+}
+
+.searchBox {
+    text-align:right;
 }

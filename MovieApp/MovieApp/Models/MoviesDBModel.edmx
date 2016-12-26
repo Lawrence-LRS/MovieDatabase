@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MovieApp.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MovieApp.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Movie">
           <Key>
             <PropertyRef Name="MovieID" />
@@ -12,7 +12,7 @@
           <Property Name="MovieID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Director" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="DateReleased" Type="datetime" Nullable="false" />
+          <Property Name="DateReleased" Type="datetime" />
         </EntityType>
         <EntityType Name="Review">
           <Key>
@@ -20,8 +20,9 @@
           </Key>
           <Property Name="ReviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Rating" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MovieID" Type="int" Nullable="false" />
+          <Property Name="DateReviewed" Type="datetime" />
+          <Property Name="rating" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_Review_dbo_Movie_MovieID">
           <End Role="Movie" Type="Self.Movie" Multiplicity="1">
@@ -45,8 +46,7 @@
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MovieApp.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -57,7 +57,7 @@
           <Property Name="MovieID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Director" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DateReleased" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateReleased" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Reviews" Relationship="Self.FK_dbo_Review_dbo_Movie_MovieID" FromRole="Movie" ToRole="Review" />
         </EntityType>
         <EntityType Name="Review">
@@ -66,9 +66,10 @@
           </Key>
           <Property Name="ReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Rating" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MovieID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Movie" Relationship="Self.FK_dbo_Review_dbo_Movie_MovieID" FromRole="Review" ToRole="Movie" />
+          <Property Name="DateReviewed" Type="DateTime" Precision="3" />
+          <Property Name="rating" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_Review_dbo_Movie_MovieID">
           <End Role="Movie" Type="Self.Movie" Multiplicity="1">
@@ -111,9 +112,10 @@
           <EntitySetMapping Name="Reviews">
             <EntityTypeMapping TypeName="MovieApp.Models.Review">
               <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="DateReviewed" ColumnName="DateReviewed" />
                 <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="MovieID" ColumnName="MovieID" />
               </MappingFragment>
             </EntityTypeMapping>

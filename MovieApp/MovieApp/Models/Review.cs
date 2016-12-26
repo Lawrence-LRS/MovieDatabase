@@ -16,8 +16,9 @@ namespace MovieApp.Models
     {
         public int ReviewID { get; set; }
         public string Comment { get; set; }
-        public string Rating { get; set; }
         public int MovieID { get; set; }
+        public Nullable<System.DateTime> DateReviewed { get; set; }
+        public int rating { get; set; }
     
         public virtual Movie Movie { get; set; }
     }

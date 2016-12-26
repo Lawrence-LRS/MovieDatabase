@@ -7,7 +7,7 @@
     <Property Name="MovieID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Director" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="DateReleased" Type="datetime" Nullable="false" />
+    <Property Name="DateReleased" Type="datetime" />
   </EntityType>
   <EntityType Name="Review">
     <Key>
@@ -15,8 +15,9 @@
     </Key>
     <Property Name="ReviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Rating" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="MovieID" Type="int" Nullable="false" />
+    <Property Name="DateReviewed" Type="datetime" />
+    <Property Name="rating" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_dbo_Review_dbo_Movie_MovieID">
     <End Role="Movie" Type="Self.Movie" Multiplicity="1">

@@ -14,9 +14,10 @@
     <EntitySetMapping Name="Reviews">
       <EntityTypeMapping TypeName="MovieApp.Models.Review">
         <MappingFragment StoreEntitySet="Review">
+          <ScalarProperty Name="rating" ColumnName="rating" />
+          <ScalarProperty Name="DateReviewed" ColumnName="DateReviewed" />
           <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
-          <ScalarProperty Name="Rating" ColumnName="Rating" />
           <ScalarProperty Name="MovieID" ColumnName="MovieID" />
         </MappingFragment>
       </EntityTypeMapping>

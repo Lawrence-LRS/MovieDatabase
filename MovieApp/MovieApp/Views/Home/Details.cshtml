@@ -1,23 +1,36 @@
 ﻿@model MovieApp.Models.Movie
+<link href="~/Content/StyleStars.css" rel="stylesheet" />
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var ratingSum = ViewBag.RatingSum;
+    var ratingCount = ViewBag.RatingCount;
+
+    decimal rating = 0;
+    if (ratingCount > 0)
+    {
+        rating = (ratingSum / ratingCount);
+    }
+
+    var totalRating = decimal.Parse(rating.ToString());
 }
 
-<h2>Details</h2>
+
+<h2>@Html.DisplayFor(model => model.Title)</h2>
+<div>
+    <span class="starFadeN" id="sRate1"></span>
+    <span class="starFadeN" id="sRate2"></span>
+    <span class="starFadeN" id="sRate3"></span>
+    <span class="starFadeN" id="sRate4"></span>
+    <span class="starFadeN" id="sRate5"></span>
+</div>
 
 <div>
-    <h4>Movie</h4>
+
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Director)
@@ -32,12 +45,47 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DateReleased)
+            @Convert.ToDateTime(Model.DateReleased).ToString("MMM-yyyy")
         </dd>
-
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MovieID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="navbtn">
+    <p style="text-align:right">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.MovieID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>
+
+
+<div class="reviews">
+    @Html.Partial("_reviewPage")
+</div>
+
+<div class="navbtn">
+    <p style="text-align:right">
+        <a href="#top" >To the Top </a> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(main());
+
+    function main() {
+        $("a[href='#top']").click(function(){
+            $("html, body").animate({scrollTop: 0}, "slow");
+            return false;
+        });
+
+        StarChange();
+    };
+
+    function StarChange() {
+        for (var i =1; i<=@totalRating; i++){
+            $("#sRate"+i).attr('class', 'starGlowN');
+        }
+    }
+</script>

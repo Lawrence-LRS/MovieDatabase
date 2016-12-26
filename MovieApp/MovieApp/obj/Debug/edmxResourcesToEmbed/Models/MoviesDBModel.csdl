@@ -7,7 +7,7 @@
     <Property Name="MovieID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Director" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="DateReleased" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DateReleased" Type="DateTime" Precision="3" />
     <NavigationProperty Name="Reviews" Relationship="Self.FK_dbo_Review_dbo_Movie_MovieID" FromRole="Movie" ToRole="Review" />
   </EntityType>
   <EntityType Name="Review">
@@ -16,9 +16,10 @@
     </Key>
     <Property Name="ReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Rating" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="MovieID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Movie" Relationship="Self.FK_dbo_Review_dbo_Movie_MovieID" FromRole="Review" ToRole="Movie" />
+    <Property Name="DateReviewed" Type="DateTime" Precision="3" />
+    <Property Name="rating" Type="Int32" Nullable="false" />
   </EntityType>
   <Association Name="FK_dbo_Review_dbo_Movie_MovieID">
     <End Role="Movie" Type="Self.Movie" Multiplicity="1">

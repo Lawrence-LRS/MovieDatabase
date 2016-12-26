@@ -1,115 +1,182 @@
 ﻿@model IEnumerable<MovieApp.Models.Movie>
-<link href="~/Content/Index.css" rel="stylesheet" />
+<link href="/Content/Index.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/StyleStars.css" rel="stylesheet" />
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div id="Title">
+                <h1>MovieDatabase</h1>
+            </div>
+        </div>
+    </div>
 
-<div id="Title">
-    <h1>MovieDatabase</h1>
-</div>
-
-
-
-@{int i = 1;}
-@foreach (var item in Model)
-{
-    <div class="movieRow">
-        
-        <h4>
-            @Html.DisplayNameFor(model => model.Title):
-            @Html.DisplayFor(modelItem => item.Title)
-        </h4> 
-
-        <h4>
-            @Html.DisplayNameFor(model => model.Director):
-            @Html.DisplayFor(modelItem => item.Director)
-        </h4>
-
-        <h4>
-            @Html.DisplayNameFor(model => model.DateReleased):
-            @Html.DisplayFor(modelItem => item.DateReleased)
-        </h4>
-
-        <div class="nav">
-            <p>
-                <input type="button" id="@(i)" class="showHideBtn btn btn-default" value="Show Reviews" />
-                @Html.ActionLink("Edit", "Edit", new { id = item.MovieID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.MovieID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.MovieID })
-            </p>
+    <div class="topBar container">
+        <div class="row">
+            <div class="searchBox">
+                @using (Html.BeginForm())
+                {
+                    <p>
+                        Title: @Html.TextBox("SearchString") <br />
+                        <input type="submit" value="Filter" />
+                    </p>
+                }
+            </div>
         </div>
     </div>
 
 
 
-    <div class="reviews" id="@("rev"+i)">
+    @{int i = 1;}
+    @foreach (var item in Model)
+    {
+        <div class="movieRow container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="movieInfo">
+                        <h5>
+                            <strong>@Html.DisplayNameFor(model => model.Title): </strong>
+                            @Html.DisplayFor(model => item.Title)
+                        </h5>
 
-        <table class="table">
-        <tr>
-            <th colspan="4">
-                <h4>Comments</h4>
-            </th>
-            <th>
-                <h4>Rating</h4>
-            </th>
-            <th>
-                <h4>Date Rated</h4>
-            </th>
-        </tr>
+                        <h5>
+                            <strong>@Html.DisplayNameFor(model => model.Director): </strong>
+                            @Html.DisplayFor(model => item.Director)
+                        </h5>
 
-        @foreach (var review in item.Reviews)
-        {
+                        <h5>
+                            <strong> Rating: </strong>
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="row">
+                        <div class="movieNav">
+                            <p>
+                                @Html.ActionLink("Details", "Details", new { id = item.MovieID }) |
+                                @*Keeping in the database to later enable admin users to edit/delete*@
+                                @Html.ActionLink("Edit", "Edit", new { id = item.MovieID }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.MovieID })
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="reviewbtn">
+                            <input type="button" id="@(i)" class="showHideBtn btn btn-default" value="Show Reviews" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="reviews" id="@("rev"+i)">
+            @if (item.Reviews.Count == 0)
+            {
+                <div class="container">
+                    <div class="row" style="text-align:center"> 
+                        <h5> Be the first to write a review for this movie!! </h5>
+                        <h5>@Html.ActionLink("Add Review", "Details", new { id = item.MovieID })</h5>
+                    </div>
+                </div>
+            }
+            else
+            {
+
+            
+            @*Asign limit dropdown section*@
+            @*<div class="dropDownLimitList">
+                    @Html.DropDownList("Limits", "")
+                </div>*@
+            <h5>@Html.ActionLink("Add Review", "Details", new { id = item.MovieID })</h5>
+            <table class="table">
+                <tr>
+                    <th colspan="2">
+                        <h4>Comments</h4>
+                    </th>
+                    <th>
+                        <h4>Rating</h4>
+                    </th>
+                    <th>
+                        <h4>Date Rated</h4>
+                    </th>
+                </tr>
+
+                @foreach (var review in item.Reviews.Take(5))
+                {
 
 
-            <tr>
-                <td colspan="4">
-                    <h5>
-                        @Html.DisplayFor(modelItem => review.Comment)
-                    </h5>
-                </td>
+                    <tr>
+                        <td colspan="2">
+                            <h5>
+                                @Html.DisplayFor(modelItem => review.Comment)
+                            </h5>
+                        </td>
 
-                <td>
-                    <h5>
-                        @Html.DisplayFor(modelItem => review.Rating)
-                    </h5>
-                </td>
+                        <td>
+                            <h5>
+                                @for (var n = 1; n <= review.rating; n++)
+                                {
+                                    <span class="starGlowN"></span>
+                                }
+                                @for (var n = (review.rating + 1); n <= 5; n++)
+                                {
+                                    <span class="starFadeN"></span>
+                                }
+                            </h5>
+                        </td>
 
-                <td>
-                    <h5>
+                        <td>
+                            <h5>
+                                @Convert.ToDateTime(review.DateReviewed).ToString("dd-MMM-yyyy")
+                            </h5>
+                        </td>
+                    </tr>
+                }
 
-                    </h5>
-                </td>
-            </tr>
-        }
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr></tr>
-        </table>
-    
-    </div>
+            </table>
+            }
+        </div>
+
     i++;
-}
+    }
+    <div class="container">
+        <div class="row">
+            <div class="class=" col-md-10 col-sm-10 col-xs-10"></div>
+            <div class="class=" col-md-2 col-sm-2 col-xs-2">
+                <div class="bottomNav">
+                    <p>
+                        <a href="#top">To the Top </a> |
+                        @Html.ActionLink("Create New", "Create")
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<p style="text-align:right">
-    @Html.ActionLink("Create New", "Create")
-</p>
 
-<script src="~/Scripts/jquery-1.10.2.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(main());
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
 
-    function main() {
-        $('.reviews').hide();
+    <script type="text/javascript">
+        $(document).ready(main());
 
-        $('.showHideBtn').click(function () {
-            $("#rev" + (this.id)).toggle();
-        });
+        function main() {
+            $("a[href='#top']").click(function () {
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+                return false;
+            });
 
-    };
-</script>
+            $('.reviews').hide();
+
+            $('.showHideBtn').click(function () {
+                $("#rev" + (this.id)).toggle();
+            });
+
+        };
+    </script>

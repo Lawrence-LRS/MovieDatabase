@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,18 +16,46 @@ namespace MovieApp.Controllers
     {
         private MoviesDBEntities db = new MoviesDBEntities();
 
+     
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            return View(db.Movies.ToList());
+            var movies = from m in db.Movies
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Title.Contains(searchString));
+            }
+
+            return View(movies);
         }
 
         // GET: Home/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
+
             var movieToView = (from m in db.Movies
                                where m.MovieID == id
                                select m).First();
+
+            ViewBag.MovieID = id.Value;
+
+            var ratings = db.Reviews.Where(d => d.MovieID.Equals(id.Value)).ToList();
+            if(ratings.Count() > 0)
+            {
+                var ratingSum = ratings.Sum(d => d.rating);
+                ViewBag.RatingSum = ratingSum;
+
+                var ratingCount = ratings.Count();
+                ViewBag.RatingCount = ratingCount;
+            }
+            else
+            {
+                ViewBag.RatingSum = 0;
+                ViewBag.RatingCount = 0;
+            }
+
             return View(movieToView);
         }
 
@@ -39,9 +68,9 @@ namespace MovieApp.Controllers
 
         // POST: Home/Create
         [HttpPost]
-        public ActionResult Create([Bind(Exclude = "Id")] Movie movieToCreate)
-        { 
-
+        public ActionResult Create([Bind(Exclude ="ID")] Movie movieToCreate)
+        {
+            
             if (ModelState.IsValid)
             {
                 db.Movies.Add(movieToCreate);
@@ -50,7 +79,7 @@ namespace MovieApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View();
+            return View(movieToCreate);
         }
 
         // GET: Home/Edit/5
