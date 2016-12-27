@@ -27,5 +27,6 @@ namespace MovieApp.Models
     
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
+
     }
 }

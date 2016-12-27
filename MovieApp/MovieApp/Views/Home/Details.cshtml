@@ -4,21 +4,11 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    var ratingSum = ViewBag.RatingSum;
-    var ratingCount = ViewBag.RatingCount;
-
-    decimal rating = 0;
-    if (ratingCount > 0)
-    {
-        rating = (ratingSum / ratingCount);
-    }
-
-    var totalRating = decimal.Parse(rating.ToString());
 }
 
-
 <h2>@Html.DisplayFor(model => model.Title)</h2>
+
+@*Average star sections*@
 <div>
     <span class="starFadeN" id="sRate1"></span>
     <span class="starFadeN" id="sRate2"></span>
@@ -27,8 +17,8 @@
     <span class="starFadeN" id="sRate5"></span>
 </div>
 
+@*Movie summary section*@
 <div>
-
     <hr />
     <dl class="dl-horizontal">
 
@@ -50,6 +40,8 @@
     </dl>
 </div>
 
+
+
 <div class="navbtn">
     <p style="text-align:right">
         @Html.ActionLink("Edit", "Edit", new { id = Model.MovieID }) |
@@ -57,10 +49,16 @@
     </p>
 </div>
 
-
+@*Loops through reviews for the selected movie*@
 <div class="reviews">
     @Html.Partial("_reviewPage")
 </div>
+
+@*Submit section*@
+<div class="reviewSubmit">
+    @Html.Partial("_reviewBox")
+</div>
+
 
 <div class="navbtn">
     <p style="text-align:right">
@@ -69,12 +67,16 @@
     </p>
 </div>
 
+
+
+
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 
 <script type="text/javascript">
     $(document).ready(main());
 
     function main() {
+        @*Scroll to the top animation*@
         $("a[href='#top']").click(function(){
             $("html, body").animate({scrollTop: 0}, "slow");
             return false;
@@ -83,8 +85,9 @@
         StarChange();
     };
 
+    @*Changes the stars to the glow with the rating value*@
     function StarChange() {
-        for (var i =1; i<=@totalRating; i++){
+        for (var i =1; i<=@Model.RatingAVG; i++){
             $("#sRate"+i).attr('class', 'starGlowN');
         }
     }

@@ -18,12 +18,19 @@ namespace MovieApp.Models
         public Movie()
         {
             this.Reviews = new HashSet<Review>();
+
+            //var ratings = Rev;
+            //var ratingSum = Reviews;
+            //var ratingCount = Reviews.Count();
+
+            //RatingAVG = ratingSum / ratingCount;
         }
     
         public int MovieID { get; set; }
         public string Title { get; set; }
         public string Director { get; set; }
         public Nullable<System.DateTime> DateReleased { get; set; }
+        public Nullable<int> RatingAVG { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Review> Reviews { get; set; }

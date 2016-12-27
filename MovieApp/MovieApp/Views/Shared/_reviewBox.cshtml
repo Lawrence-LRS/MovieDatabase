@@ -1,4 +1,4 @@
-﻿
+﻿@*This is for the review adding section*@
 
 <div class="container">
     <div class="row">
@@ -42,10 +42,6 @@
 
 </div>
 
-        
-
-
-
 
 
 <script>
@@ -59,8 +55,9 @@
         }
     }
 
+    //Selection of the stars finalized
     function CRate(r) {
-        $("#Rating").val(r);
+        $("#Rating").val(r); //sets rating value
         for (var i = 1; i <= r; i++) {
             $("#Rate" + i).attr('class', 'starGlow');
         }
@@ -70,12 +67,14 @@
         }
     }
 
+    //Essentially the :hover css but allows for multiple stars to be highlighted
     function CRateOver(r) {
         for (var i = 1; i <= r; i++) {
             $("#Rate" + i).attr('class', 'starGlow');
         }
     }
 
+    //unhighlights stars when nolonger active
     function CRateOut(r) {
         for (var i = 1; i <= r; i++) {
             $("#Rate" + i).attr('class', 'starFade');

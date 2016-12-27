@@ -1,41 +1,30 @@
-﻿body {
-}
-
-
-
-.starFade{
+﻿.starFade{
     background-image:url('../Images/StarFade.gif');
-    min-width:30px;
-    min-height:30px;
+    min-width:20px;
+    min-height:20px;
     display:inline-block;
     cursor:pointer;
-}
-
-.starFade:hover{
-    background-image:url('../Images/starglow.gif');
-    min-width:30px;
-    min-height:30px;
-    display:inline-block;
-    cursor:pointer;
-}
-
-.starFadeN{
-    background-image:url('../Images/StarFade.gif');
-    min-width:30px;
-    min-height:30px;
-    display:inline-block;
 }
 
 .starGlow{
     background-image:url('../Images/starglow.gif');
-    min-width:30px;
-    min-height:30px;
+    min-width:20px;
+    min-height:20px;
     display:inline-block;
     cursor:pointer;
 }
+
+/*N does not have the cursure pointer*/
+.starFadeN{
+    background-image:url('../Images/StarFade.gif');
+    min-width: 20px;
+    min-height:20px;
+    display:inline-block;
+}
+
 .starGlowN{
     background-image:url('../Images/starglow.gif');
-    min-width:30px;
-    min-height:30px;
+    min-width:20px;
+    min-height:20px;
     display:inline-block;
 }

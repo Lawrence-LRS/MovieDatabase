@@ -9,6 +9,7 @@
     <Property Name="Director" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="DateReleased" Type="DateTime" Precision="3" />
     <NavigationProperty Name="Reviews" Relationship="Self.FK_dbo_Review_dbo_Movie_MovieID" FromRole="Movie" ToRole="Review" />
+    <Property Name="RatingAVG" Type="Int32" />
   </EntityType>
   <EntityType Name="Review">
     <Key>

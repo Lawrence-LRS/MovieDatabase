@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Movies">
       <EntityTypeMapping TypeName="MovieApp.Models.Movie">
         <MappingFragment StoreEntitySet="Movie">
+          <ScalarProperty Name="RatingAVG" ColumnName="RatingAVG" />
           <ScalarProperty Name="MovieID" ColumnName="MovieID" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Director" ColumnName="Director" />

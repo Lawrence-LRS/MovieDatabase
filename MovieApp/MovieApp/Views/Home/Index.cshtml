@@ -6,7 +6,10 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="wrapper">
+
+    @*Title box*@
     <div class="container">
         <div class="row">
             <div id="Title">
@@ -15,27 +18,28 @@
         </div>
     </div>
 
+
     <div class="topBar container">
         <div class="row">
             <div class="searchBox">
                 @using (Html.BeginForm())
                 {
-                    <p>
-                        Title: @Html.TextBox("SearchString") <br />
-                        <input type="submit" value="Filter" />
-                    </p>
+                    <p> Title: @Html.TextBox("SearchString") <br /> </p>
+                    <input type="submit" value="Filter" />
+                    
                 }
             </div>
         </div>
     </div>
 
 
-
+    @*Counter that names the review div and button to later hide*@
     @{int i = 1;}
     @foreach (var item in Model)
     {
         <div class="movieRow container">
             <div class="row">
+                @*Movie information*@
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="movieInfo">
                         <h5>
@@ -49,17 +53,26 @@
                         </h5>
 
                         <h5>
-                            <strong> Rating: </strong>
+                            <span style="vertical-align:middle;"> <strong> Rating: </strong> </span>
+                            @for (var n = 1; n <= item.RatingAVG; n++)
+                            {
+                                <span class="starGlowN" style="vertical-align:middle;"></span>
+                            }
+                            @for (var n = (item.RatingAVG + 1); n <= 5; n++)
+                            {
+                                <span class="starFadeN" style="vertical-align:middle;"></span>
+                            }
                         </h5>
                     </div>
                 </div>
 
+                @*button section*@
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="row">
                         <div class="movieNav">
                             <p>
                                 @Html.ActionLink("Details", "Details", new { id = item.MovieID }) |
-                                @*Keeping in the database to later enable admin users to edit/delete*@
+                                @*Keeping in the database to later enable admin users to edit/delete and hide from users*@
                                 @Html.ActionLink("Edit", "Edit", new { id = item.MovieID }) |
                                 @Html.ActionLink("Delete", "Delete", new { id = item.MovieID })
                             </p>
@@ -76,27 +89,23 @@
         </div>
 
         <div class="reviews" id="@("rev"+i)">
-            @if (item.Reviews.Count == 0)
-            {
+
+            @*if statement incase no reviews*@
+            @if (item.Reviews.Count == 0) {
+
                 <div class="container">
                     <div class="row" style="text-align:center"> 
                         <h5> Be the first to write a review for this movie!! </h5>
                         <h5>@Html.ActionLink("Add Review", "Details", new { id = item.MovieID })</h5>
                     </div>
                 </div>
-            }
-            else
-            {
 
-            
-            @*Asign limit dropdown section*@
-            @*<div class="dropDownLimitList">
-                    @Html.DropDownList("Limits", "")
-                </div>*@
+            } else {
+
             <h5>@Html.ActionLink("Add Review", "Details", new { id = item.MovieID })</h5>
             <table class="table">
                 <tr>
-                    <th colspan="2">
+                    <th>
                         <h4>Comments</h4>
                     </th>
                     <th>
@@ -107,18 +116,16 @@
                     </th>
                 </tr>
 
-                @foreach (var review in item.Reviews.Take(5))
-                {
-
+                @foreach (var review in item.Reviews) {
 
                     <tr>
-                        <td colspan="2">
+                        <td width="40%">
                             <h5>
                                 @Html.DisplayFor(modelItem => review.Comment)
                             </h5>
                         </td>
 
-                        <td>
+                        <td width="35%">
                             <h5>
                                 @for (var n = 1; n <= review.rating; n++)
                                 {
@@ -131,7 +138,7 @@
                             </h5>
                         </td>
 
-                        <td>
+                        <td width="25%">
                             <h5>
                                 @Convert.ToDateTime(review.DateReviewed).ToString("dd-MMM-yyyy")
                             </h5>
@@ -142,41 +149,48 @@
             </table>
             }
         </div>
-
+    <div class="MovieBorder"></div>
     i++;
     }
+
+    @*Set up div structure to take boostrap colums if more nav is needed*@
     <div class="container">
         <div class="row">
-            <div class="class=" col-md-10 col-sm-10 col-xs-10"></div>
-            <div class="class=" col-md-2 col-sm-2 col-xs-2">
-                <div class="bottomNav">
-                    <p>
-                        <a href="#top">To the Top </a> |
-                        @Html.ActionLink("Create New", "Create")
-                    </p>
-                </div>
+           <div class="bottomNav">
+                <a href="#top">To the Top </a> |
+                @Html.ActionLink("Create New", "Create")
             </div>
         </div>
     </div>
+</div>
 
 
 
-    <script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(main());
+<script type="text/javascript">
+    $(document).ready(main());
 
-        function main() {
-            $("a[href='#top']").click(function () {
-                $("html, body").animate({ scrollTop: 0 }, "slow");
-                return false;
-            });
+    function main() {
+        @*top scroll animation*@
+        $("a[href='#top']").click(function () {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+            return false;
+        });
 
-            $('.reviews').hide();
+        @*Initial hides reviews *@
+        $('.reviews').hide();
 
-            $('.showHideBtn').click(function () {
-                $("#rev" + (this.id)).toggle();
-            });
+        @*Does the Show/Hide button and changes the text on the button*@
+        $('.showHideBtn').click(function () {
+            $("#rev" + (this.id)).toggle();
 
-        };
-    </script>
+            if (this.value == 'Show Reviews') {
+                this.value = 'Hide Reviews';
+            } else {
+                this.value = 'Show Reviews';
+            }
+        });
+
+    };
+</script>
