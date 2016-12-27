@@ -1,15 +1,17 @@
 ﻿.starFade{
     background-image:url('../Images/StarFade.gif');
-    min-width:20px;
-    min-height:20px;
+    background-position:center;
+    width:30px;
+    height:30px;
     display:inline-block;
     cursor:pointer;
 }
 
 .starGlow{
     background-image:url('../Images/starglow.gif');
-    min-width:20px;
-    min-height:20px;
+    background-position:center;
+    width:30px;
+    height:30px;
     display:inline-block;
     cursor:pointer;
 }
@@ -17,14 +19,16 @@
 /*N does not have the cursure pointer*/
 .starFadeN{
     background-image:url('../Images/StarFade.gif');
-    min-width: 20px;
-    min-height:20px;
+    background-position:center;
+    width: 30px;
+    height:30px;
     display:inline-block;
 }
 
 .starGlowN{
     background-image:url('../Images/starglow.gif');
-    min-width:20px;
-    min-height:20px;
+    background-position:center;
+    width:30px;
+    height:30px;
     display:inline-block;
 }
